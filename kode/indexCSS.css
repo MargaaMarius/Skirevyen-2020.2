@@ -58,6 +58,10 @@ main{
   width: 50vw;
 }
 
+article{
+  margin-bottom: 5vh;
+}
+
 /*CSS for slideshowet*/
 
 #slideshow *{
