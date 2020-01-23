@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Skirevyen 2020</title>
+  <link type="text/css"
+        rel="stylesheet"
+        href="kode/indexCSS.css">
+</head>
+<body>
+<header>
+  <div class="topNav" id="myTopNav">
+    <a href="index.html"><img src="media/revyLogoLiten.jpg"></a>
+    <a href="https://www.instagram.com/skirevyen2020/"><img src="media/Instagram%20logo.png"></a>
+    <a href="https://www.facebook.com/skirevyen/"><img src="media/Facebook%20logo.png"></a>
+    <a href="https://www.youtube.com/channel/UCXxtu-fI-x9uJOAlwqTEf9w"><img src="media/YouTube%20logo.png"></a>
+
+    <a href="kode/omOss.html" class="right"><p>OM OSS</p></a>
+    <a href="kode/andreMedvirkende.html" class="right"><p>ANDRE MEDVIRKENDE</p></a>
+    <a href="kode/grupper.html" class="right"><p>GRUPPER</p></a>
+
+  </div>
+</header>
+<main>
+  <article id="logo">
+    <img src="media/revyLogoMiddels.jpg">
+  </article>
+  <article id="konseptVid">
+    <h1>Konseptvideo</h1>
+  </article>
+  <article id="forestillingListe">
+    <p>FORESTILLINGER SPILLES</p>
+    <br/>
+    <p>25. FEBRUAR KL. 19.00</p>
+    <p>26. FEBRUAR KL. 19.00</p>
+    <p>27. FEBRUAR KL. 19.00</p>
+    <p>28. FEBRUAR KL. 19.00</p>
+    <p>29. FEBRUAR KL. 14.00</p>
+    <p>OG 19.00</p>
+    <br/>
+    <a>KJØP BILETTER HER!</a>
+  </article>
+  <article id="slideshow">
+    <div id="slideshow-container">
+      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+    <br/>
+    <div id="dot-container" style="text-align: center"></div>
+
+  </article>
+  <article id="sponsorer">
+    <h1>SPONSORER</h1>
+  </article>
+</main>
+<footer>
+
+</footer>
+<script>
+  //Kildene til bildene i slideshowet
+  let slideShowBilder = [
+    "media/thumb-1920-757535.jpg",
+    "media/thumb-1920-757560.png",
+    "media/thumb-1920-757568.jpg",
+    "media/thumb-1920-860192.jpg"
+  ];
+
+  //Fyller inn slideshowet og legger til prikkene
+  for (let i = 0; i < slideShowBilder.length; i++){
+    let slideShowContainer = document.getElementById("slideshow-container");
+    let dotContainer = document.getElementById("dot-container");
+
+    slideShowContainer.innerHTML += `
+    <div class="mySlide fade">
+      <div class="numbertext">${i}/${slideShowBilder.length}</div>
+      <img src="${slideShowBilder[i]}" style="width:100%">
+    </div>
+    `;
+
+    dotContainer.innerHTML += `
+    <span class="dot" onclick="currentSlide(${i+1})"></span>
+    `;
+  }
+
+  var slideIndex = 1;
+  showSlides(slideIndex);
+
+  // Next/previous controls
+  function plusSlides(n) {
+    showSlides(slideIndex += n);
+  }
+
+  // Thumbnail image controls
+  function currentSlide(n) {
+    showSlides(slideIndex = n);
+  }
+
+  function showSlides(n) {
+    var i;
+    var slides = document.getElementsByClassName("mySlide");
+    var dots = document.getElementsByClassName("dot");
+    if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex-1].style.display = "block";
+    dots[slideIndex-1].className += " active";
+  }
+
+</script>
+</body>
+</html>
