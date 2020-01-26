@@ -166,3 +166,24 @@ article{
 #sponsor-container img{
   width: 100%;
 }
+
+/*CSS for footer*/
+footer{
+  display: grid;
+  margin-top: 10vh;
+  grid-template-columns: 1fr 2fr 2fr;
+}
+
+footer div{
+  margin: 0 5vw;
+}
+
+footer img{
+  width: 50%;
+  min-width: 75px;
+  margin: 0 auto;
+}
+
+footer div:nth-child(2){
+  text-align: right;
+}
