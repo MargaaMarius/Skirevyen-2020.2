@@ -54,6 +54,10 @@ main{
   align-items: center;
 }
 
+main h1{
+  text-align: center;
+}
+
 #logo img{
   width: 50vw;
 }
@@ -145,4 +149,20 @@ article{
 @keyframes fade{
   from {opacity: 0.4}
   to{opacity: 1}
+}
+
+/*CSS til sponsorene*/
+#sponsor-container{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+#sponsor-container div{
+  text-align: center;
+  width: 75%;
+  margin: 0 auto;
+}
+
+#sponsor-container img{
+  width: 100%;
 }

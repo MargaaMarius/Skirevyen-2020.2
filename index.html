@@ -53,6 +53,7 @@
   </article>
   <article id="sponsorer">
     <h1>SPONSORER</h1>
+    <div id="sponsor-container"></div>
   </article>
 </main>
 <footer>
@@ -64,6 +65,20 @@
     "media/thumb-1920-757535.jpg",
     "media/thumb-1920-757560.png",
     "media/thumb-1920-757568.jpg"
+  ];
+
+  //Objekt med sponsorene
+  let sponsorer = [
+    {
+      navn: "FROM SOFTWARE",
+      bilde : "https://media.fromsoftware.jp/fromsoftware/ww/static/img/top/narrow/slideimg_190610_01.jpg",
+      link: "https://en.wikipedia.org/wiki/FromSoftware"
+    },
+    {
+      navn: "FROM SOFTWARE",
+      bilde : "https://media.fromsoftware.jp/fromsoftware/ww/static/img/top/narrow/slideimg_190610_01.jpg",
+      link: "https://en.wikipedia.org/wiki/FromSoftware"
+    }
   ];
 
   //Fyller inn slideshowet og legger til prikkene
@@ -110,6 +125,17 @@
     }
     slides[slideIndex-1].style.display = "block";
     dots[slideIndex-1].className += " active";
+  }
+
+  //Legger inn sponsorene
+  for (let i = 0; i < sponsorer.length; i++){
+    let sponsorDiv = document.getElementById("sponsor-container");
+    sponsorDiv.innerHTML += `
+    <div>
+      <a href="${sponsorer[i].link}"><img src="${sponsorer[i].bilde}"></a>
+      <p>${sponsorer[i].navn}</p>
+    </div>
+    `;
   }
 
 </script>
