@@ -15,8 +15,8 @@ body{
 /*CSS for nav*/
 .topNav{
   overflow: hidden;
-  height: 11vh;
   border-bottom: white solid 5px;
+  background-color: #053492;
 }
 
 .topNav a{
@@ -46,6 +46,14 @@ a.right{
   transition-duration: 0.3s;
 }
 
+.topNav .icon{
+  display: none;
+}
+
+
+
+
+
 /*CSS for main*/
 main{
   display: flex;
@@ -56,6 +64,7 @@ main{
 
 main h1{
   text-align: center;
+  margin-bottom: 2vh;
 }
 
 #logo img{
@@ -64,6 +73,7 @@ main h1{
 
 article{
   margin-bottom: 5vh;
+  text-align: center;
 }
 
 /*CSS for slideshowet*/
@@ -91,19 +101,21 @@ article{
   cursor: pointer;
   position: absolute;
   top: 50%;
-  width: auto;
+  left: 0;
+  width: 5%;
   margin-top: -22px;
   padding: 16px;
   color: white;
   font-weight: bold;
   font-size: 18px;
-  transition: 0.6s ease;
+  transition: 0.2s ease;
   border-radius: 0 3px 3px 0;
   user-select: none;
 }
 
 .next{
   right: 0;
+  left: auto;
   border-radius: 3px 0 0 3px;
 }
 
@@ -136,9 +148,9 @@ article{
 
 .fade{
   -webkit-animation-name: fade;
-  -webkit-animation-duration: 1.5s;
+  -webkit-animation-duration: 0.5s;
   animation-name: fade;
-  animation-duration: 1.5s;
+  animation-duration: 0.5s;
 }
 
 @-webkit-keyframes fade {
@@ -187,3 +199,52 @@ footer img{
 footer div:nth-child(2){
   text-align: right;
 }
+
+
+
+
+@media screen and (orientation: portrait){
+  /*Media queries for nav*/
+  .topNav a:not(:first-child){
+    display: none;
+  }
+
+  .topNav a.icon{
+    display: block;
+    float: right;
+  }
+
+  .topNav.responsiv{
+    position: relative;
+  }
+
+  .topNav.responsiv a.icon{
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .topNav.responsiv a{
+    display: block;
+    float: none;
+    text-align: left;
+  }
+
+  /*Media queries for slideshow*/
+  .prev, .next{
+    height: 100%;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    width: 33%;
+  }
+
+  /*Media queries for sponsorer*/
+  #sponsor-container{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+
+

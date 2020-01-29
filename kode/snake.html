@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Snek</title>
+    <style>
+        body{
+            background-color: grey;
+        }
+
+        #bane{
+            background-color: black;
+            width: 750px;
+            height: 750px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(15, 50px);
+        }
+
+        .rute{
+            box-sizing: border-box;
+            border: 2px white solid;
+            width: 50px;
+            height: 50px;
+        }
+
+        .slangeKropp{
+            background-color: #4CAF50;
+            width: 40px;
+            height: 40px;
+            margin: 3px auto;
+        }
+
+        .eple{
+            background-color: red;
+            width: 40px;
+            height: 40px;
+            margin: 3px auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="bane"></div>
+<script>
+    let ruteStr = 50;
+    let body = document.querySelector("body");
+
+    let retning;
+
+    body.addEventListener("keydown", startSpill);
+
+    for (let i = 0; i < 15; i++){
+        for (let j = 0; j < 15; j++){
+            let bane = document.getElementById("bane");
+            bane.innerHTML += `
+          <div class="rute" data-x="i" data-y="j" id="x${i}y${j}"></div>
+        `;
+        }
+    }
+
+    let slangeArr = [
+        [7],
+        [7]
+    ];
+
+    let epleKoordinater = [];
+
+    let haleLengde = 1;
+
+    function startSpill(event){
+        if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight"){
+            retning = event.key;
+            oppdaterSlange();
+            body.removeEventListener("keydown", startSpill);
+            body.addEventListener("keydown", endreRetning)
+        }
+
+    }
+
+    function lagEple(){
+        let x = Math.trunc(Math.random()*15);
+        let y = Math.trunc(Math.random()*15);
+        epleKoordinater[0] = x;
+        epleKoordinater[1] = y;
+    }
+
+    function endreRetning(event) {
+        if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+            switch (retning) {
+                case "ArrowUp":
+                    if (event.key !== "ArrowDown") {
+                        retning = event.key;
+                    }
+                    break;
+                case "ArrowDown":
+                    if (event.key !== "ArrowUp") {
+                        retning = event.key;
+                    }
+                    break;
+                case "ArrowLeft":
+                    if (event.key !== "ArrowRight") {
+                        retning = event.key;
+                    }
+                    break;
+                case "ArrowRight":
+                    if (event.key !== "ArrowLeft") {
+                        retning = event.key;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    function oppdaterSlange(){
+
+        //Regner ut ny plassering for hodet
+        switch (retning){
+            case "ArrowUp":
+                slangeArr[0][0] -= 1;
+                break;
+            case "ArrowDown":
+                slangeArr[0][0] += 1;
+                break;
+            case "ArrowLeft":
+                slangeArr[1][0] -= 1;
+                break;
+            case "ArrowRight":
+                slangeArr[1][0] += 1;
+                break;
+            default:
+                break;
+        }
+
+        //Sjekker om slangen spiser seg selv, eller går ut av banen
+        for (let i = 1; i < haleLengde; i++){
+            if (slangeArr[0][0] === slangeArr[0][i] && slangeArr[1][0] === slangeArr[1][i]){
+                gameOver();
+                return 1;
+            }
+        }
+        if(slangeArr[0][0] < 0 || slangeArr[0][0] >= 15 || slangeArr[1][0] < 0 || slangeArr[1][0] >= 15){
+            gameOver();
+            return 1;
+        }
+
+        //Tømmer alt i griden
+        for (let i = 0; i < 15; i++){
+            for (let j = 0; j < 15; j++){
+                let rute = document.getElementById(`x${i}y${j}`);
+                rute.innerHTML = ``;
+            }
+        }
+
+        //Tegner eplet
+        let epleRute = document.getElementById(`x${epleKoordinater[0]}y${epleKoordinater[1]}`);
+        epleRute.innerHTML += `
+        <div class="eple"></div>
+        `;
+
+        //Tegner slangen
+        for (let i = 0; i < slangeArr[0].length; i++){
+            let rute = document.getElementById(`x${slangeArr[0][i]}y${slangeArr[1][i]}`);
+            rute.innerHTML = `
+            <div class="slangeKropp"></div>
+            `;
+        }
+
+        //Flytter halen forover
+        for (let i = haleLengde; i > 0; i--){
+            slangeArr[0][i] = slangeArr[0][i-1];
+            slangeArr[1][i] = slangeArr[1][i-1];
+        }
+
+
+        //Gir poeng og lager nytt eple dersom slangen spiser et eple
+        if(slangeArr[0][0] === epleKoordinater[0] && slangeArr[1][0] === epleKoordinater[1]){
+            haleLengde++;
+            lagEple();
+        }
+
+        setTimeout(oppdaterSlange, 100);
+    }
+
+    function gameOver(){
+        alert("Du har tapt");
+    }
+
+    lagEple();
+
+
+</script>
+</body>
+</html>
