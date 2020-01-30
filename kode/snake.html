@@ -6,6 +6,8 @@
     <style>
         body{
             background-color: grey;
+            text-align: center;
+            color: white;
         }
 
         #bane{
@@ -25,25 +27,122 @@
         }
 
         .slangeKropp{
-            background-color: #4CAF50;
+            background-color: pink;
             width: 40px;
             height: 40px;
             margin: 3px auto;
         }
 
         .eple{
-            background-color: red;
             width: 40px;
             height: 40px;
             margin: 3px auto;
+          background-image: url("../media/LitenPølse.png");
         }
+
+      #gameOverBG{
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        background-color: #0a1010;
+        display: none;
+        opacity: 50%;
+      }
+
+      #gameOverDiv{
+        display: none;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      #gameOverScreen{
+        background-color: #eeeeee;
+        width: 50vh;
+        height: 50vh;
+        border-radius: 10%;
+        opacity: 100;
+        color: #0a1010;
+      }
+
+      #tavleDiv{
+        width: 100px;
+        display: inline;
+        position: fixed;
+        left:0;
+      }
+
+      #tavleDiv table{
+        display: inline-block;
+      }
     </style>
 </head>
 <body>
+    <h1>Snake</h1>
+    <div id="tavleDiv">
+      <table>
+        <thead>
+          <th>Rank</th>
+          <th>Navn</th>
+          <th>Poeng</th>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
     <div id="bane"></div>
+    <p>Poengsummen din er: <span id="poengsum">0</span></p>
+
+    <div id="gameOverBG"></div>
+    <div id="gameOverDiv">
+      <div id="gameOverScreen">
+        <p>Din poengsum ble: <span id="gameOverPoeng">0</span></p>
+
+      </div>
+    </div>
+
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-database.js"></script>
+
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyBz4wVCjzIa2VcKAlQ43Xnpx7eSteGPNW8",
+        authDomain: "snake-629a7.firebaseapp.com",
+        databaseURL: "https://snake-629a7.firebaseio.com",
+        projectId: "snake-629a7",
+        storageBucket: "snake-629a7.appspot.com",
+        messagingSenderId: "71255623686",
+        appId: "1:71255623686:web:9f8255603283cbb2039b87",
+        measurementId: "G-TRSDMV2P3Q"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
 <script>
     let ruteStr = 50;
     let body = document.querySelector("body");
+
+    let db = firebase.database();
+
+    let poeng = db.ref("poeng");
+
+
 
     let retning;
 
@@ -72,7 +171,7 @@
             retning = event.key;
             oppdaterSlange();
             body.removeEventListener("keydown", startSpill);
-            body.addEventListener("keydown", endreRetning)
+            body.addEventListener("keydown", endreRetning);
         }
 
     }
@@ -80,6 +179,15 @@
     function lagEple(){
         let x = Math.trunc(Math.random()*15);
         let y = Math.trunc(Math.random()*15);
+        let erRuteSlange = false;
+
+        for (let i = 0; i < slangeArr[0].length; i++){
+          while(x === slangeArr[0][i] && y === slangeArr[1][i]){
+            x = Math.trunc(Math.random()*15);
+            y = Math.trunc(Math.random()*15);
+          }
+        }
+
         epleKoordinater[0] = x;
         epleKoordinater[1] = y;
     }
@@ -113,7 +221,31 @@
         }
     }
 
-    function oppdaterSlange(){
+    function oppdaterSlange(prevRetning){
+
+      //Sørger for at man ikke kan gå bakover
+      switch (retning) {
+        case "ArrowUp":
+          if(prevRetning === "ArrowDown"){
+            retning = prevRetning;
+          }
+          break;
+        case "ArrowDown":
+          if(prevRetning === "ArrowUp"){
+            retning = prevRetning;
+          }
+          break;
+        case "ArrowLeft":
+          if(prevRetning === "ArrowRight"){
+            retning = prevRetning;
+          }
+          break;
+        case "ArrowRight":
+          if(prevRetning === "ArrowLeft"){
+            retning = prevRetning;
+          }
+          break;
+      }
 
         //Regner ut ny plassering for hodet
         switch (retning){
@@ -136,11 +268,13 @@
         //Sjekker om slangen spiser seg selv, eller går ut av banen
         for (let i = 1; i < haleLengde; i++){
             if (slangeArr[0][0] === slangeArr[0][i] && slangeArr[1][0] === slangeArr[1][i]){
+              console.log("tap, gikk på deg selv");
                 gameOver();
                 return 1;
             }
         }
         if(slangeArr[0][0] < 0 || slangeArr[0][0] >= 15 || slangeArr[1][0] < 0 || slangeArr[1][0] >= 15){
+          console.log("tap, gikk ut av banen");
             gameOver();
             return 1;
         }
@@ -176,18 +310,152 @@
 
         //Gir poeng og lager nytt eple dersom slangen spiser et eple
         if(slangeArr[0][0] === epleKoordinater[0] && slangeArr[1][0] === epleKoordinater[1]){
+            let poengSpan = document.getElementById("poengsum");
+            poengSpan.innerHTML = `${haleLengde}`;
+          let gameOverSpan = document.getElementById("gameOverPoeng");
+          gameOverSpan.innerHTML = `${haleLengde}`;
             haleLengde++;
             lagEple();
         }
 
-        setTimeout(oppdaterSlange, 100);
+        let retningsLager = retning;
+
+        setTimeout(function () {
+          oppdaterSlange(retningsLager);
+        }, 100);
     }
 
+
     function gameOver(){
-        alert("Du har tapt");
+      let gameOverBG = document.getElementById("gameOverBG");
+      gameOverBG.style.display = "flex";
+      let gameOverDiv = document.getElementById("gameOverDiv");
+      gameOverDiv.style.display = "flex";
+
+      let rank = 1;
+
+      poeng.on("child_added", function (snapshot){
+        let poengObj = snapshot.val();
+        let poengKey = snapshot.key;
+
+        if (haleLengde-1 <= poengObj.poeng){
+          rank++;
+        }
+      });
+      let gameOverScreen = document.getElementById("gameOverScreen");
+
+      if(rank <= 10){
+        gameOverScreen.innerHTML = `
+        <h1>Game over!</h1>
+        <p>Din poengsum ble: <span id="gameOverPoeng">${haleLengde-1}</span></p>
+        <div id="sendInnPoeng"></div>
+          <p>Du havnet på ${rank}. plass!</p>
+          <p>Vil du legge poengsumen din til poengtavla?</p>
+          <label for="poengNavn">Navn:</label>
+          <input type="text" id="poengNavn">
+          <button id="sendInnButton" onclick="sendInnPoeng(${rank})">Ja</button>
+          <br/>
+          <button onclick="restart()">Start på nytt</button>
+
+          `;
+
+      }else{
+        gameOverScreen.innerHTML = `
+        <h1>Game over!</h1>
+        <p>Din poengsum ble: <span id="gameOverPoeng">${haleLengde-1}</span></p>
+        <div id="sendInnPoeng"></div>
+        <button onclick="restart()">Start på nytt</button>
+
+          `;
+      }
     }
 
     lagEple();
+
+    function restart() {
+      for (let i = 0; i < 15; i++) {
+        for (let j = 0; j < 15; j++) {
+          let rute = document.getElementById(`x${i}y${j}`);
+          rute.innerHTML = ``;
+        }
+      }
+
+      lagEple();
+
+      haleLengde = 1;
+      let poengSpan = document.getElementById("poengsum");
+      poengSpan.innerHTML = `${haleLengde - 1}`;
+      let gameOverSpan = document.getElementById("gameOverPoeng");
+      gameOverSpan.innerHTML = `${haleLengde - 1}`;
+
+      let gameOverBG = document.getElementById("gameOverBG");
+      gameOverBG.style.display = "none";
+      let gameOverDiv = document.getElementById("gameOverDiv");
+      gameOverDiv.style.display = "none";
+
+      slangeArr = [
+        [7],
+        [7]
+      ];
+
+      body.removeEventListener("keydown", endreRetning);
+      body.addEventListener("keydown", startSpill);
+    }
+
+    function sendInnPoeng(rank) {
+      console.log("heiii");
+      let sendInnButton = document.getElementById("sendInnButton");
+      sendInnButton.onclick = function(){};
+      let poengInp = document.getElementById("poengNavn");
+      //let poengObj = poeng.child(rank);
+
+      for (let i = 10; i > rank; i-- ){
+        poeng
+          .orderByKey()
+          .equalTo(`${i-1}`)
+          .on("child_added", function(snapshot){
+            let prevPoeng = snapshot.val();
+            let nyPoeng = prevPoeng.poeng;
+            let nyNavn = prevPoeng.navn;
+
+            let poengData = {
+              navn: nyNavn,
+              poeng: nyPoeng
+            };
+
+            let poengObj = poeng.child(i);
+            poengObj.set(poengData);
+          });
+      }
+
+      let poengObj = poeng.child(rank);
+
+      let poengData = {
+        poeng: haleLengde-1,
+        navn: poengInp.value
+      };
+      poengObj.set(poengData);
+
+      let tabell = document.querySelector("tbody");
+      tabell.innerHTML = ``;
+      poeng.on("child_added", hentPoeng);
+    }
+
+    function hentPoeng(snapshot){
+      let poengObj = snapshot.val();
+      let rank = snapshot.key;
+
+      let tabell = document.querySelector("tbody");
+      tabell.innerHTML += `
+      <tr>
+        <td>${rank}</td>
+        <td>${poengObj.navn}</td>
+        <td>${poengObj.poeng}</td>
+      </tr>
+      `;
+    }
+
+    poeng.on("child_added", hentPoeng);
 
 
 </script>
