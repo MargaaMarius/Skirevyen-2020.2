@@ -28,15 +28,15 @@
 
         .slangeKropp{
             background-color: pink;
-            width: 40px;
-            height: 40px;
-            margin: 3px auto;
+            width: 4vh;
+            height: 4vh;
+            margin: 0.25vh 0.25vh;
         }
 
         .eple{
-            width: 40px;
-            height: 40px;
-            margin: 3px auto;
+            width: 4vh;
+            height: 4vh;
+            margin: 0.25vh 0.25vh;
           background-image: url("../media/LitenPølse.png");
         }
 
@@ -72,31 +72,28 @@
       }
 
       #tavleDiv{
-        width: 100px;
-        display: inline;
-        position: fixed;
+        width: 150px;
+        display: inline-block;
+        position: absolute;
         left:0;
+        top: 0;
       }
 
       #tavleDiv table{
         display: inline-block;
       }
+
+      @media screen and(max-width: 500px){
+        #tavleDiv{
+          position: static;
+          top: auto;
+          left: auto;
+        }
+      }
     </style>
 </head>
 <body>
     <h1>Snake</h1>
-    <div id="tavleDiv">
-      <table>
-        <thead>
-          <th>Rank</th>
-          <th>Navn</th>
-          <th>Poeng</th>
-        </thead>
-        <tbody>
-
-        </tbody>
-      </table>
-    </div>
     <div id="bane"></div>
     <p>Poengsummen din er: <span id="poengsum">0</span></p>
 
@@ -107,6 +104,19 @@
 
       </div>
     </div>
+    <div id="tavleDiv">
+      <table>
+        <thead>
+        <th>Rank</th>
+        <th>Navn</th>
+        <th>Poeng</th>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+
 
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
