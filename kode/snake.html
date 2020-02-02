@@ -5,7 +5,7 @@
     <title>Snek</title>
     <style>
         body{
-            background-color: grey;
+            background-color: #053492;
             text-align: center;
             color: white;
             font-size: 2em;
@@ -27,25 +27,24 @@
 
         .rute{
             box-sizing: border-box;
-            border: 2px white solid;
+            /*border: 2px white solid;*/
             width: 5vh;
             height: 5vh;
         }
 
         .slangeKropp{
-            background-color: #61d8ff;
+            background-color: pink;
             width: 4vh;
             height: 4vh;
-            margin: 0.25vh 0.25vh;
+            margin: 0.5vh 0.5vh;
         }
 
         .eple{
-            width: 4vh;
-            height: 4vh;
-            margin: 0.25vh 0.25vh;
-          /*background-image: url("../media/LitenPølse.png");*/
+            width: 5vh;
+            height: 5vh;
+            /*margin: 0.25vh 0.25vh;*/
+          background-image: url("../media/LitenPølse.png");
           background-size: contain;
-          background-color: red;
         }
 
       #gameOverBG{
@@ -247,6 +246,10 @@
 
     function oppdaterSlange(prevRetning){
 
+      let slangeDel = document.querySelectorAll(".slangeKropp");
+      let slangefarge = Math.trunc(Math.random()*360);
+
+
       //Sørger for at man ikke kan gå bakover
       switch (retning) {
         case "ArrowUp":
@@ -292,13 +295,11 @@
         //Sjekker om slangen spiser seg selv, eller går ut av banen
         for (let i = 1; i < haleLengde; i++){
             if (slangeArr[0][0] === slangeArr[0][i] && slangeArr[1][0] === slangeArr[1][i]){
-              console.log("tap, gikk på deg selv");
                 gameOver();
                 return 1;
             }
         }
         if(slangeArr[0][0] < 0 || slangeArr[0][0] >= 15 || slangeArr[1][0] < 0 || slangeArr[1][0] >= 15){
-          console.log("tap, gikk ut av banen");
             gameOver();
             return 1;
         }
@@ -318,11 +319,81 @@
         `;
 
         //Tegner slangen
-        for (let i = 0; i < slangeArr[0].length; i++){
-            let rute = document.getElementById(`x${slangeArr[0][i]}y${slangeArr[1][i]}`);
+        for (let i = 0; i < slangeArr[0].length; i++) {
+          let rute = document.getElementById(`x${slangeArr[0][i]}y${slangeArr[1][i]}`);
+          console.log(i);
+          let pad = "";
+          let marg = "";
+          pad = "0 0 0.5vh 0";
+          marg = "0.5vh 0.5vh 0 0.5vh";
+
+          if (i === 0){
+            let roter = 90;
+            switch(retning){
+              case "ArrowUp":
+                roter = 0;
+                pad = "0 0 0.5vh 0";
+                marg = "0.5vh 0.5vh 0 0.5vh";
+                break;
+              case "ArrowDown":
+                roter = 180;
+                //pad = "0.5vh 0 0 0";
+                //marg = "0 0.5vh 0.5vh 0.5vh";
+                break;
+              case "ArrowLeft":
+                roter = 270;
+                //pad = "0 0.5vh 0 0";
+               // marg = "0.5vh 0 0.5vh 0.5vh";
+                break;
+              case "ArrowRight":
+                roter = 90;
+               // pad = "0 0 0 0.5vh";
+                //marg = "0.5vh 0.5vh 0.5vh 0";
+                break;
+            }
             rute.innerHTML = `
-            <div class="slangeKropp"></div>
+            <div class="slangeKropp" style="
+              background-image: url('../media/grisPixel.png');
+              background-repeat: no-repeat;
+              background-color: pink;
+              transform: rotate(${roter}deg);
+              padding: ${pad};
+              margin: ${marg};
+            "></div>
             `;
+          }else if(i === haleLengde){
+
+          }else {
+            let padArray = ["0","0","0","0"];
+            let margArray = ["0.5vh", "0.5vh", "0.5vh", "0.5vh"];
+
+            if(slangeArr[0][i-1] === slangeArr[0][i] - 1 || slangeArr[0][i+1] === slangeArr[0][i] - 1){
+              padArray[0] = "0.5vh";
+              margArray[0] = "0";
+            }
+
+            if(slangeArr[1][i-1] === slangeArr[1][i] + 1 || slangeArr[1][i+1] === slangeArr[1][i] + 1 ){
+              padArray[1] = "0.5vh";
+              margArray[1] = "0";
+            }
+
+            if(slangeArr[0][i-1] === slangeArr[0][i] + 1 || slangeArr[0][i+1] === slangeArr[0][i] + 1){
+              padArray[2] = "0.5vh";
+              margArray[2] = "0";
+            }
+
+            if(slangeArr[1][i-1] === slangeArr[1][i] - 1 || slangeArr[1][i+1] === slangeArr[1][i] - 1){
+              padArray[3] = "0.5vh";
+              margArray[3] = "0";
+            }
+
+            rute.innerHTML = `
+            <div class="slangeKropp" style="
+              padding: ${padArray[0]} ${padArray[1]} ${padArray[2]} ${padArray[3]};
+              margin: ${margArray[0]} ${margArray[1]} ${margArray[2]} ${margArray[3]};
+            "></div>
+            `;
+          }
         }
 
         //Flytter halen forover
@@ -397,7 +468,6 @@
     }
 
     function spaceForStart(event){
-      console.log(event.keyCode);
       if(event.keyCode === 32) {
         body.removeEventListener("keydown", spaceForStart);
         restart();
@@ -437,7 +507,6 @@
     }
 
     function sendInnPoeng(rank) {
-      console.log("heiii");
       let sendInnButton = document.getElementById("sendInnButton");
       sendInnButton.onclick = function(){};
       let poengInp = document.getElementById("poengNavn");
