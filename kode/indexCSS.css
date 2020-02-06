@@ -237,6 +237,7 @@ footer div:nth-child(2){
 
   /*Media queries for video*/
   iframe{
+    height: 56.25vw;
     width: 100vw;
   }
 
