@@ -76,6 +76,11 @@ article{
   text-align: center;
 }
 
+iframe{
+  height: 39.375vw;
+  width: 70vw;
+}
+
 /*CSS for slideshowet*/
 
 #slideshow *{
@@ -230,6 +235,11 @@ footer div:nth-child(2){
     text-align: left;
   }
 
+  /*Media queries for video*/
+  iframe{
+    width: 100vw;
+  }
+
   /*Media queries for slideshow*/
   .prev, .next{
     height: 100%;
@@ -237,6 +247,7 @@ footer div:nth-child(2){
     margin: 0;
     padding: 0;
     width: 33%;
+    opacity: 0;
   }
 
   /*Media queries for sponsorer*/
