@@ -8,7 +8,7 @@ body{
   color: #ffffff;
   font-family: chalkboard, sans-serif;
   text-shadow: #ffffff 0 0 10px;
-
+  font-size: 1.5vw;
 }
 
 
@@ -25,7 +25,7 @@ body{
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-size: 50px;
+  font-size: 3vw;
   color: #ffffff;
 }
 
@@ -50,6 +50,7 @@ a.right{
 
 .topNav .icon{
   display: none;
+  color: #ffffff;
 }
 
 
@@ -86,7 +87,7 @@ main h1{
 }
 
 #startDiv p, #startDiv a{
-  font-size: 40px;
+  font-size: 3vw;
 }
 
 article{
@@ -148,7 +149,7 @@ iframe{
 
 .numbertext{
   color: #ffffff;
-  font-size: 12px;
+  font-size: 20px;
   padding: 8px 12px;
   position: absolute;
   top: 0;
@@ -227,6 +228,10 @@ footer div:nth-child(2){
 
 
 @media screen and (orientation: portrait){
+  body{
+    font-size: 4vw;
+  }
+
   /*Media queries for nav*/
   .topNav a:not(:first-child){
     display: none;
@@ -235,6 +240,7 @@ footer div:nth-child(2){
   .topNav a.icon{
     display: block;
     float: right;
+    font-size: 10vw;
   }
 
   .topNav.responsiv{
@@ -281,6 +287,11 @@ footer div:nth-child(2){
   /*Media queries for sponsorer*/
   #sponsor-container{
     grid-template-columns: repeat(2, 1fr);
+    font-size: 4vw;
+  }
+
+  footer div:nth-child(1){
+    display: none;
   }
 }
 
