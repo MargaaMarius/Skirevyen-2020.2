@@ -38,11 +38,13 @@ a.right{
 }
 
 .topNav p:hover{
-  filter: blur(2px);
+  /*filter: blur(2px);*/
+  text-shadow: #ffffff 0 0 20px;
+
 }
 
 .topNav img:hover{
-  transform: scale(0.8);
+  transform: scale(1.1);
   transition-duration: 0.3s;
 }
 
