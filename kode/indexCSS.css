@@ -73,6 +73,22 @@ main h1{
   width: 50vw;
 }
 
+#startDiv{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100vw;
+}
+
+#startDiv img{
+  width: 35vw;
+}
+
+#startDiv p, #startDiv a{
+  font-size: 40px;
+}
+
 article{
   margin-bottom: 5vh;
   text-align: center;
@@ -235,6 +251,15 @@ footer div:nth-child(2){
     display: block;
     float: none;
     text-align: left;
+  }
+
+  /*Media queries for logo og tider*/
+  #startDiv{
+    flex-direction: column;
+  }
+
+  #startDiv img{
+    width: 80vw;
   }
 
   /*Media queries for video*/
