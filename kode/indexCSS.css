@@ -8,7 +8,8 @@ body{
   color: #ffffff;
   font-family: chalkboard, sans-serif;
   text-shadow: #ffffff 0 0 1vh;
-  font-size: 1.5vw;
+  font-size: 1vw;
+  min-height: 100vh;
 }
 
 
@@ -17,7 +18,7 @@ body{
 /*CSS for nav*/
 .topNav{
   overflow: hidden;
-  border-bottom: white solid 5px;
+  border-bottom: white solid 0.5vh;
   background-color: #053492;
 }
 
@@ -27,7 +28,7 @@ body{
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-size: 3vw;
+  font-size: 2vw;
   color: #ffffff;
 }
 
@@ -41,7 +42,7 @@ a.right{
 
 .topNav p:hover{
   /*filter: blur(2px);*/
-  text-shadow: #ffffff 0 0 20px;
+  text-shadow: #ffffff 0 0 2vh;
 
 }
 
@@ -73,7 +74,7 @@ main a{
 }
 
 main a:hover{
-  text-shadow: #ffffff 0 0 20px;
+  text-shadow: #ffffff 0 0 2vh;
 }
 
 main h1{
@@ -98,7 +99,7 @@ main h1{
 }
 
 #startDiv p, #startDiv a{
-  font-size: 3vw;
+  font-size: 2vw;
 }
 
 article{
@@ -222,9 +223,11 @@ iframe{
 
 /*CSS for footer*/
 footer{
+  border-top: white solid 0.5vh;
   display: grid;
   margin-top: 10vh;
   grid-template-columns: 1fr 2fr 2fr;
+
 }
 
 footer div{
@@ -240,6 +243,13 @@ footer img{
 
 footer div:nth-child(2){
   text-align: right;
+}
+
+.tomSide{
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
@@ -306,6 +316,10 @@ footer div:nth-child(2){
   #sponsor-container{
     grid-template-columns: repeat(2, 1fr);
     font-size: 4vw;
+  }
+
+  footer{
+    font-size: 3vw;
   }
 
   footer div:nth-child(1){
